@@ -1,26 +1,37 @@
 from dataclasses import dataclass
-from typing import List, Optional, Dict
-from enum import Enum
-
-class TaskCategory(Enum):
-    WORK = "work"
-    PERSONAL = "personal"
-    HEALTH = "health"
-    FINANCE = "finance"
-    BLOCKCHAIN = "blockchain"
-    SOCIAL = "social"
+from typing import List, Optional, Dict, Any
+from datetime import datetime
+import uuid
 
 @dataclass
-class Task:
+class TradeSignal:
     id: str
-    title: str
+    pair: str  # e.g., "ETH/MONAD"
+    direction: str  # "BUY" or "SELL"
+    amount: float
+    price: float
+    confidence: float  # 0.0 to 1.0
+    timestamp: str
+    source_agent: str
+    risk_level: str  # "low", "medium", "high"
+    metadata: Dict[str, Any]
+
+@dataclass
+class SecurityAlert:
+    id: str
+    alert_type: str  # "flash_crash", "anomaly", "front_run", "manipulation"
+    severity: int  # 1-10
+    affected_pairs: List[str]
     description: str
-    priority: int
-    category: str
-    due_datetime: Optional[str] = None
-    estimated_duration: int = 30
-    reasoning_chain: str = ""
-    conflicts: List[str] = None
-    status: str = "pending"
-    blockchain_metadata: Optional[Dict] = None
-    created_at: str = ""
+    timestamp: str
+    related_tx_hashes: List[str]
+    resolved: bool = False
+
+@dataclass
+class MarketDataPoint:
+    pair: str
+    price: float
+    volume: float
+    timestamp: str
+    liquidity: float
+    volatility: float
